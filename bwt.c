@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "buffer.h"
+#include "ring.h"
 
 char *file_to_string(FILE *file);
 

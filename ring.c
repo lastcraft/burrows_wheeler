@@ -1,12 +1,20 @@
-#include "virtual_string.h"
+#include "ring.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+
+#define min(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a < _b ? _a : _b; })
 
 struct Ring_ {
     int length;
     int start;
     char *text;
-}
+};
+
+int compare_char(char ch1, char ch2);
 
 Ring *create_ring(char *text, int start) {
     Ring *ring = (Ring *)malloc(sizeof(Ring));
@@ -21,7 +29,7 @@ char at(Ring *ring, int position) {
     if (offset >= ring->length) {
         offset -= ring->length;
     }
-    return ring->text + offset;
+    return ring->text[offset];
 }
 
 bool is_same(Ring *ring1, Ring *ring2) {
@@ -29,7 +37,7 @@ bool is_same(Ring *ring1, Ring *ring2) {
 }
 
 int compare_ring(Ring *ring1, Ring *ring2) {
-    for (int i = 0, int size = min(ring1->length, ring2->length); i < size; i++) {
+    for (int i = 0, size = min(ring1->length, ring2->length); i < size; i++) {
         if (compare_char(at(ring1, i), at(ring2, i)) != 0) {
             return compare_char(at(ring1, i), at(ring2, i));
         }
