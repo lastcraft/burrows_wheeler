@@ -14,6 +14,8 @@ struct Ring_ {
     char *text;
 };
 
+char at(Ring *ring, int position);
+bool is_same(Ring *ring1, Ring *ring2);
 int compare_char(char ch1, char ch2);
 
 Ring *create_ring(char *text, int start) {
@@ -24,16 +26,8 @@ Ring *create_ring(char *text, int start) {
     return ring;
 }
 
-char at(Ring *ring, int position) {
-    int offset = position + ring->start;
-    if (offset >= ring->length) {
-        offset -= ring->length;
-    }
-    return ring->text[offset];
-}
-
-bool is_same(Ring *ring1, Ring *ring2) {
-    return (ring1->text == ring2->text) && (ring1->start == ring2->start);
+void free_ring(Ring *ring) {
+    free(ring);
 }
 
 int compare_ring(Ring *ring1, Ring *ring2) {
@@ -49,6 +43,26 @@ int compare_ring(Ring *ring1, Ring *ring2) {
     } else {
         return -1;
     }
+}
+
+char *ring_to_string(Ring *ring) {
+    char *text = (char *)malloc((ring->length + 1) * sizeof(char));
+    text[ring->length] = '\0';
+    memcpy(text, ring->text + ring->start, (ring->length - ring->start) * sizeof(char));
+    memcpy(text + ring->length - ring->start, ring->text, ring->start * sizeof(char));
+    return text;
+}
+
+char at(Ring *ring, int position) {
+    int offset = position + ring->start;
+    if (offset >= ring->length) {
+        offset -= ring->length;
+    }
+    return ring->text[offset];
+}
+
+bool is_same(Ring *ring1, Ring *ring2) {
+    return (ring1->text == ring2->text) && (ring1->start == ring2->start);
 }
 
 int compare_char(char ch1, char ch2) {
