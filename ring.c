@@ -51,18 +51,18 @@ char *ring_to_string(const Ring *ring) {
     return text;
 }
 
-void print_ring(const Ring *ring) {
-    char *rotation = ring_to_string(ring);
-    printf("Ring %p %u/%u: %s", ring, ring->start, ring->length, rotation);
-    free(rotation);
-}
-
 char at(const Ring *ring, const int position) {
     int offset = position + ring->start;
     if (offset >= ring->length) {
         offset -= ring->length;
     }
     return ring->text[offset];
+}
+
+void print_ring(const Ring *ring) {
+    char *rotation = ring_to_string(ring);
+    printf("Ring %p %u/%u: %s", ring, ring->start, ring->length, rotation);
+    free(rotation);
 }
 
 bool is_same(const Ring *ring1, const Ring *ring2) {
