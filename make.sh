@@ -1,3 +1,4 @@
+rm bwt
 gcc -c buffer.c -o buffer.o
 gcc -c ring.c -o ring.o
 gcc -c bwt.c -o bwt.o

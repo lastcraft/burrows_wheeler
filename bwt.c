@@ -7,6 +7,7 @@
 char *file_to_string(FILE *file);
 void tr(char *text, char target, char replacement);
 char *bwt(char *text);
+int compare_ring_pointer(const void *ringp1, const void *ringp2);
 
 int main(int argc, char **argv) {
     char *message = file_to_string(stdin);
@@ -22,6 +23,7 @@ char *bwt(char *text) {
     for (int i = 0; i < length; i++) {
         ring_list[i] = create_ring(text, i);
     }
+    qsort(ring_list, length, sizeof(Ring *), compare_ring_pointer);
     for (int i = 0; i < length; i++) {
         char *rotation = ring_to_string(ring_list[i]);
         printf("%s\n", rotation);
@@ -52,3 +54,8 @@ void tr(char *text, char target, char replacement) {
         }
     }
 }
+
+int compare_ring_pointer(const void *ringp1, const void *ringp2) {
+    return compare_ring(*(Ring **)ringp1, *(Ring **)ringp2);
+}
+

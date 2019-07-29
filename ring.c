@@ -2,23 +2,19 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
-#define min(a,b) \
-   ({ __typeof__ (a) _a = (a); \
-       __typeof__ (b) _b = (b); \
-     _a < _b ? _a : _b; })
+#include <stdio.h>
 
 struct Ring_ {
-    int length;
-    int start;
+    unsigned int length;
+    unsigned int start;
     char *text;
 };
 
-char at(Ring *ring, int position);
-bool is_same(Ring *ring1, Ring *ring2);
-int compare_char(char ch1, char ch2);
+char at(const Ring *ring, const int position);
+bool is_same(const Ring *ring1, const Ring *ring2);
+int compare_char(const char ch1, const char ch2);
 
-Ring *create_ring(char *text, int start) {
+Ring *create_ring(char *text, unsigned int start) {
     Ring *ring = (Ring *)malloc(sizeof(Ring));
     ring->start = start;
     ring->length = strlen(text);
@@ -30,10 +26,12 @@ void free_ring(Ring *ring) {
     free(ring);
 }
 
-int compare_ring(Ring *ring1, Ring *ring2) {
-    for (int i = 0, size = min(ring1->length, ring2->length); i < size; i++) {
-        if (compare_char(at(ring1, i), at(ring2, i)) != 0) {
-            return compare_char(at(ring1, i), at(ring2, i));
+int compare_ring(const Ring *ring1, const Ring *ring2) {
+    int smallest = ring1->length < ring2->length ? ring1->length : ring2->length;
+    for (int i = 0; i < smallest; i++) {
+        int comparison = compare_char(at(ring1, i), at(ring2, i));
+        if (comparison != 0) {
+            return comparison;
         }
     }
     if (ring1->length == ring2->length) {
@@ -45,7 +43,7 @@ int compare_ring(Ring *ring1, Ring *ring2) {
     }
 }
 
-char *ring_to_string(Ring *ring) {
+char *ring_to_string(const Ring *ring) {
     char *text = (char *)malloc((ring->length + 1) * sizeof(char));
     text[ring->length] = '\0';
     memcpy(text, ring->text + ring->start, (ring->length - ring->start) * sizeof(char));
@@ -53,7 +51,13 @@ char *ring_to_string(Ring *ring) {
     return text;
 }
 
-char at(Ring *ring, int position) {
+void print_ring(const Ring *ring) {
+    char *rotation = ring_to_string(ring);
+    printf("Ring %p %u/%u: %s", ring, ring->start, ring->length, rotation);
+    free(rotation);
+}
+
+char at(const Ring *ring, const int position) {
     int offset = position + ring->start;
     if (offset >= ring->length) {
         offset -= ring->length;
@@ -61,14 +65,14 @@ char at(Ring *ring, int position) {
     return ring->text[offset];
 }
 
-bool is_same(Ring *ring1, Ring *ring2) {
+bool is_same(const Ring *ring1, const Ring *ring2) {
     return (ring1->text == ring2->text) && (ring1->start == ring2->start);
 }
 
-int compare_char(char ch1, char ch2) {
+int compare_char(const char ch1, const char ch2) {
     if (ch1 < ch2) {
         return -1;
-    } else if (ch1 < ch2) {
+    } else if (ch1 > ch2) {
         return 1;
     } else {
         return 0;
