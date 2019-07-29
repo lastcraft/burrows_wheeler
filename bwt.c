@@ -1,25 +1,37 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "buffer.h"
 #include "ring.h"
 
 char *file_to_string(FILE *file);
+void tr(char *text, char target, char replacement);
+char *bwt(char *text);
 
 int main(int argc, char **argv) {
     char *message = file_to_string(stdin);
-    printf("%s\n", message);
-    Ring *ring1 = create_ring(message, 0);
-    char *text_0 = ring_to_string(ring1);
-    printf("%s\n", text_0);
-    free(text_0);
-    Ring *ring2 = create_ring(message, 1);
-    char *text_1 = ring_to_string(ring2);
-    printf("%s\n", text_1);
-    free(text_1);
-    free(ring2);
-    free(ring1);
+    tr(message, '\n', '$');
+    bwt(message);
     free(message);
     return 0;
+}
+
+char *bwt(char *text) {
+    int length = strlen(text);
+    Ring **ring_list = (Ring **)malloc(sizeof(Ring *) * length);
+    for (int i = 0; i < length; i++) {
+        ring_list[i] = create_ring(text, i);
+    }
+    for (int i = 0; i < length; i++) {
+        char *rotation = ring_to_string(ring_list[i]);
+        printf("%s\n", rotation);
+        free(rotation);
+    }
+    for (int i = 0; i < length; i++) {
+        free_ring(ring_list[i]);
+    }
+    free(ring_list);
+    return NULL;
 }
 
 char *file_to_string(FILE *file) {
@@ -31,4 +43,12 @@ char *file_to_string(FILE *file) {
         buffer_append(buffer, block);
     }
     return drop_buffer(buffer);
+}
+
+void tr(char *text, char target, char replacement) {
+    for (int i = 0; i < strlen(text); i++) {
+        if (text[i] == target) {
+            text[i] = replacement;
+        }
+    }
 }
