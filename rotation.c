@@ -4,69 +4,69 @@
 #include <string.h>
 #include <stdio.h>
 
-struct Ring_ {
+struct Rotation_ {
     unsigned int length;
     unsigned int start;
     char *text;
 };
 
-char at(const Ring *ring, const int position);
-bool is_same(const Ring *ring1, const Ring *ring2);
+char at(const Rotation *ring, const int position);
+bool is_same(const Rotation *ring1, const Rotation *ring2);
 int compare_char(const char ch1, const char ch2);
 
-Ring *create_ring(char *text, unsigned int start) {
-    Ring *ring = (Ring *)malloc(sizeof(Ring));
-    ring->start = start;
-    ring->length = strlen(text);
-    ring->text = text;
-    return ring;
+Rotation *create_rotation(char *text, unsigned int start) {
+    Rotation *rotation = (Rotation *)malloc(sizeof(Rotation));
+    rotation->start = start;
+    rotation->length = strlen(text);
+    rotation->text = text;
+    return rotation;
 }
 
-void free_ring(Ring *ring) {
-    free(ring);
+void free_rotation(Rotation *rotation) {
+    free(rotation);
 }
 
-int compare_ring(const Ring *ring1, const Ring *ring2) {
-    int smallest = ring1->length < ring2->length ? ring1->length : ring2->length;
+int compare_rotation(const Rotation *rotation1, const Rotation *rotation2) {
+    int smallest = rotation1->length < rotation2->length ? rotation1->length : rotation2->length;
     for (int i = 0; i < smallest; i++) {
-        int comparison = compare_char(at(ring1, i), at(ring2, i));
+        int comparison = compare_char(at(rotation1, i), at(rotation2, i));
         if (comparison != 0) {
             return comparison;
         }
     }
-    if (ring1->length == ring2->length) {
+    if (rotation1->length == rotation2->length) {
         return 0;
-    } else if (ring1->length > ring2->length) {
+    } else if (rotation1->length > rotation2->length) {
         return 1;
     } else {
         return -1;
     }
 }
 
-char *ring_to_string(const Ring *ring) {
-    char *text = (char *)malloc((ring->length + 1) * sizeof(char));
-    text[ring->length] = '\0';
-    memcpy(text, ring->text + ring->start, (ring->length - ring->start) * sizeof(char));
-    memcpy(text + ring->length - ring->start, ring->text, ring->start * sizeof(char));
+char *rotation_to_string(const Rotation *rotation) {
+    char *text = (char *)malloc((rotation->length + 1) * sizeof(char));
+    text[rotation->length] = '\0';
+    memcpy(text, rotation->text + rotation->start, (rotation->length - rotation->start) * sizeof(char));
+    memcpy(text + rotation->length - rotation->start, rotation->text, rotation->start * sizeof(char));
     return text;
 }
 
-char at(const Ring *ring, const int position) {
-    int offset = position + ring->start;
-    if (offset >= ring->length) {
-        offset -= ring->length;
+char at(const Rotation *rotation, const int position) {
+    int offset = position + rotation->start;
+    if (offset >= rotation->length) {
+        offset -= rotation->length;
     }
-    return ring->text[offset];
+    return rotation->text[offset];
 }
 
-void print_ring(const Ring *ring) {
-    char *rotation = ring_to_string(ring);
-    printf("Ring %p %u/%u: %s", ring, ring->start, ring->length, rotation);
-    free(rotation);
+void print_rotation(const Rotation *rotation) {
+    char *text = rotation_to_string(rotation);
+    printf("Rotation %p %u/%u: %s", rotation, rotation->start, rotation->length, text);
+    free(text);
 }
 
-bool is_same(const Ring *ring1, const Ring *ring2) {
-    return (ring1->text == ring2->text) && (ring1->start == ring2->start);
+bool is_same(const Rotation *rotation1, const Rotation *rotation2) {
+    return (rotation1->text == rotation2->text) && (rotation1->start == rotation2->start);
 }
 
 int compare_char(const char ch1, const char ch2) {

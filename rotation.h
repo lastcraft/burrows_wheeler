@@ -1,13 +1,13 @@
 #ifndef __ROTATION_H__
 #define __ROTATION_H__
 
-typedef struct Ring_ Ring;
+typedef struct Rotation_ Rotation;
 
-Ring *create_ring(char *text, unsigned int start);
-void free_ring(Ring *ring);
-int compare_ring(const Ring *ring1, const Ring *ring2);
-char *ring_to_string(const Ring *ring);
-char at(const Ring *ring, const int position);
-void print_ring(const Ring *ring);
+Rotation *create_rotation(char *text, unsigned int start);
+void free_rotation(Rotation *rotation);
+int compare_rotation(const Rotation *rotation1, const Rotation *rotation2);
+char *rotation_to_string(const Rotation *rotation);
+char at(const Rotation *rotation, const int position);
+void print_rotation(const Rotation *rotation);
 
 #endif
