@@ -1,5 +1,5 @@
-#ifndef __RING_H__
-#define __RING_H__
+#ifndef __ROTATION_H__
+#define __ROTATION_H__
 
 typedef struct Ring_ Ring;
 

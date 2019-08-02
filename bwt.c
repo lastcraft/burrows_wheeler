@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "ring.h"
+#include "rotation.h"
 #include "bwt.h"
 
 int compare_ring_pointer(const void *ringp1, const void *ringp2);
@@ -22,6 +22,10 @@ char *bwt(char *text) {
     }
     free(ring_list);
     return transformed;
+}
+
+char *reverse_bwt(char *bwt) {
+    return NULL;
 }
 
 int compare_ring_pointer(const void *ringp1, const void *ringp2) {
