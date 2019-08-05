@@ -26,7 +26,7 @@ char *bwt(char *text) {
 
 char *reverse_bwt(char *bwt) {
     char grid[strlen(bwt)][strlen(bwt) + 1];
-    return NULL;
+    return strdup("(not implemented)");
 }
 
 int compare_rotation_pointer(const void *rotation_p1, const void *rotation_p2) {

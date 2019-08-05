@@ -12,6 +12,9 @@ int main(int argc, char **argv) {
     tr(message, '\n', '$');
     char *transformed = bwt(message);
     printf("%s\n", transformed);
+    char *recovered = reverse_bwt(transformed);
+    printf("%s\n", recovered);
+    free(recovered);
     free(transformed);
     free(message);
     return 0;
