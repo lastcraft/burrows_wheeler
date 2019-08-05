@@ -25,6 +25,7 @@ char *bwt(char *text) {
 }
 
 char *reverse_bwt(char *bwt) {
+    char grid[strlen(bwt)][strlen(bwt) + 1];
     return NULL;
 }
 
